@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/style_form.css' %}">
+
+<div class="form-page-body">
+    <div class="form-container">
+        <form method="post">
+            {% csrf_token %}
+            <fieldset>
+                <legend>Login to SkyTravel</legend>
+                
+                {% if form.errors %}
+                    <p class="error-msg" style="margin-bottom: 1rem;">Your username and password didn't match. Please try again.</p>
+                {% endif %}
+
+                <div class="input-container">
+                    <label for="id_username">Username:</label>
+                    {{ form.username }}
+                </div>
+
+                <div class="input-container">
+                    <label for="id_password">Password:</label>
+                    {{ form.password }}
+                </div>
+
+                <div class="button-container">
+                    <button type="submit" id="submitButton" style="background-color: #04353b; color: white;">Login</button>
+                </div>
+                
+                <p style="margin-top: 1rem; text-align: center;">
+                    <a href="{% url 'password_reset' %}" style="color: #04353b;">Forgot password?</a>
+                </p>
+            </fieldset>
+        </form>
+    </div>
+</div>
+{% endblock %}

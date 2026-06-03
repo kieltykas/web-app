@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2 class="section-title">Available Flights</h2>
+
+<div class="card-grid">
+    {% for flight in flights %}
+    <article class="card">
+        <div class="card-text">
+            <h3>{{ flight.destination.city }}, {{ flight.destination.country }}</h3>
+            <p><strong>Flight:</strong> {{ flight.flight_number }}</p>
+            <p><strong>Departing:</strong> {{ flight.departure_time|date:"d M Y, H:i" }}</p>
+            <p><strong>Seats:</strong> {{ flight.capacity }}</p>
+            <p class="bold-text" style="margin-top: 0.5rem; font-size: 1.5rem;">${{ flight.price }}</p>
+            
+            {% if user.is_authenticated %}
+                <a href="{% url 'book_flight' flight.id %}" class="btn-primary">Book Now</a>
+            {% else %}
+                <a href="{% url 'login' %}?next={% url 'book_flight' flight.id %}" class="btn-primary" style="background-color: #666;">Login to Book</a>
+            {% endif %}
+        </div>
+    </article>
+    {% empty %}
+        <p>No flights scheduled at the moment.</p>
+    {% endfor %}
+</div>
+{% endblock %}

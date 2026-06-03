@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/style_form.css' %}">
+<script src="{% static 'js/script.js' %}" defer></script>
+
+<div class="form-page-body">
+    <div class="form-container">
+        <form id="bookingForm" method="post" novalidate>
+            {% csrf_token %}
+            <fieldset>
+                <legend>
+                    {% if is_edit %}
+                        Edit Reservation: {{ flight.flight_number }}
+                    {% else %}
+                        Book Flight to {{ flight.destination.city }}
+                    {% endif %}
+                </legend>
+
+                {% if form.non_field_errors %}
+                    <div class="error-msg" style="margin-bottom: 1rem;">
+                        {{ form.non_field_errors }}
+                    </div>
+                {% endif %}
+
+                <div class="input-container">
+                    <label for="fullName">Passenger Name:</label>
+                    {{ form.passenger_name }}
+                    <span class="error-msg" id="err-fullName">{{ form.passenger_name.errors.as_text }}</span>
+                </div>
+
+                <div class="input-container">
+                    <label for="passport">Passport Number:</label>
+                    {{ form.passport_number }}
+                    <span class="error-msg" id="err-passport">{{ form.passport_number.errors.as_text }}</span>
+                </div>
+
+                <div class="input-container">
+                    <label for="seatClass">Seat Class:</label>
+                    {{ form.seat_class }}
+                    <span class="error-msg" id="err-seatClass">{{ form.seat_class.errors.as_text }}</span>
+                </div>
+
+                <div class="checkbox-container">
+                    {{ form.extra_luggage }}
+                    <label for="luggage">Add Extra Luggage (+$50)</label>
+                </div>
+
+                <div class="button-container">
+                    <button type="submit" id="submitButton" disabled>
+                        {% if is_edit %}Update{% else %}Confirm Booking{% endif %}
+                    </button>
+                    <a href="{% url 'flight_list' %}" class="btn-cancel">Cancel</a>
+                </div>
+            </fieldset>
+        </form>
+    </div>
+</div>
+{% endblock %}

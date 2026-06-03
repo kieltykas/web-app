@@ -1,0 +1,51 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SkyTravel</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+    <header>
+        <nav class="menu-container">
+            <div class="menu-icon">☰ Menu</div>
+            <ul class="dropdown-menu">
+                <li><a href="{% url 'home' %}">Home</a></li>
+                <li><a href="{% url 'flight_list' %}">Flights</a></li>
+                {% if user.is_authenticated %}
+                    <li><a href="{% url 'my_reservations' %}">My Bookings</a></li>
+                    <li>
+                        <form action="{% url 'logout' %}" method="post">
+                            {% csrf_token %}
+                            <button type="submit">Logout</button>
+                        </form>
+                    </li>
+                {% else %}
+                    <li><a href="{% url 'login' %}">Login</a></li>
+                {% endif %}
+            </ul>
+        </nav>
+        <div class="header-right">
+            <h1>SkyTravel</h1>
+        </div>
+    </header>
+
+    <main>
+        {% if messages %}
+            <div class="messages">
+                {% for message in messages %}
+                    <div class="alert {{ message.tags }}">{{ message }}</div>
+                {% endfor %}
+            </div>
+        {% endif %}
+
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer style="text-align: center; padding: 2rem; color: #666; font-size: 0.9rem;">
+        &copy; 2026 SkyTravel Airlines. All rights reserved.
+    </footer>
+</body>
+</html>

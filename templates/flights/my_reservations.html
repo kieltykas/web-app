@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2 class="section-title">My Reservations</h2>
+
+<div class="card-grid">
+    {% for res in reservations %}
+    <article class="card" style="border-top-color: #04353b;">
+        <h3>To: {{ res.flight.destination.city }}</h3>
+        <p><strong>Passenger:</strong> {{ res.passenger_name }}</p>
+        <p><strong>Flight:</strong> {{ res.flight.flight_number }}</p>
+        <p><strong>Date:</strong> {{ res.flight.departure_time|date:"d M Y H:i" }}</p>
+        <p><strong>Class:</strong> {{ res.seat_class|title }}</p>
+        <p><strong>Luggage:</strong> {% if res.extra_luggage %}Yes{% else %}No{% endif %}</p>
+        <br>
+        <a href="{% url 'edit_reservation' res.id %}" class="btn-primary" style="background-color: #a2c3be; color: #04353b;">Edit Details</a>
+    </article>
+    {% empty %}
+        <div style="grid-column: 1 / -1; text-align: center;">
+            <p>You have no active reservations.</p>
+            <br>
+            <a href="{% url 'flight_list' %}" class="btn-primary">Book a Flight</a>
+        </div>
+    {% endfor %}
+</div>
+{% endblock %}

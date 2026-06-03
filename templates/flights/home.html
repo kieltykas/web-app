@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div style="text-align: center; margin-bottom: 3rem;">
+    <h2 class="section-title">Discover the World</h2>
+    <p style="font-size: 1.2rem; max-width: 800px; margin: auto;">
+        Experience premium travel with SkyTravel. From bustling cities to serene landscapes, 
+        we connect you to your dreams with comfort and style.
+    </p>
+    <br>
+    <a href="{% url 'flight_list' %}" class="btn-primary" style="font-size: 1.2rem; padding: 1rem 2rem;">Browse Flights</a>
+</div>
+
+<h3 style="margin-bottom: 1rem; color: #04353b;">Popular Destinations</h3>
+<div class="card-grid">
+    {% for dest in destinations %}
+        <article class="card">
+            <h3>{{ dest.city }}</h3>
+            <p style="font-style: italic;">{{ dest.country }}</p>
+            <p>{{ dest.description|truncatewords:20 }}</p>
+        </article>
+    {% empty %}
+        <p>No destinations added yet. Please check back later.</p>
+    {% endfor %}
+</div>
+{% endblock %}
